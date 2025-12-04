@@ -1,0 +1,64 @@
+---
+# Dependabot configuration
+#
+# This file configures automated dependency updates.
+# The goal is to:
+#  - keep Go modules (from go.mod) up to date with security and bug fixes
+#  - reduce the number of PRs by batching minor and patch updates
+#  - highlight potentially breaking (major) updates in dedicated PRs
+#  - keep GitHub Actions and other tooling (CI, linters, etc.) maintained
+#
+# Note: Go does not separate dev/prod dependencies.
+# All direct dependencies are tracked in go.mod, so we focus on:
+#  - grouping non-breaking updates (minor + patch) together
+#  - isolating major updates into separate PRs for careful review
+#
+# Recommended documentation:
+#
+# 1) Dependabot Options Reference — full list of available keys,
+#    including "package-ecosystem", "directory", "groups", "update-types", etc.
+#    https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+# 2) Optimizing pull request creation — best practices for grouping updates,
+#    controlling frequency, and limiting noise in development teams.
+#    https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/optimizing-pr-creation-version-updates
+#
+# These links explain *why* we group Go module updates,
+# *how* different ecosystems (Go modules, GitHub Actions, Docker) are handled,
+# and what update strategies GitHub recommends
+# for real-world Go projects.
+#
+version: 2
+updates:
+  # 1) Keep GitHub Actions workflows up to date
+  - package-ecosystem: github-actions
+    directory: /  # Look for workflow files in the repo root
+    schedule:
+      interval: weekly  # Check for updates once a week
+    labels: [dependencies, automated, actions]  # Labels added to PRs
+    groups:
+      actions-minor-patch:
+        # Group all non-breaking (minor + patch) updates into a single PR
+        update-types: [minor, patch]
+      actions-major:
+        # Major updates are potentially breaking → separate PR
+        update-types: [major]
+  # 2) Go modules: application dependencies from go.mod / go.sum
+  - package-ecosystem: gomod
+    directory: /  # Look for go.mod in the repo root
+    schedule:
+      interval: weekly  # Weekly check for Go module updates
+    labels: [dependencies, automated, go]
+    allow:
+      # Only direct dependencies declared in go.mod
+      # (reduces noise from transitive dependencies)
+      - dependency-type: direct
+    groups:
+      gomod-minor-patch:
+        # Group minor + patch updates into a single PR
+        # to keep dependency upgrades frequent but not noisy
+        update-types: [minor, patch]
+      gomod-major:
+        # Major version bumps may be breaking changes,
+        # so we keep them in separate PRs for careful review
+        update-types: [major]
