@@ -24,6 +24,9 @@ install:
 lint:
 	golangci-lint run ./...
 	govulncheck ./...
+	rumdl check .
+	typos
+	jactionlint
 
 lint-fix:
 	golangci-lint run --fix ./...
