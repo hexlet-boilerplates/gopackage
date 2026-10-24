@@ -19,6 +19,7 @@ test-coverage:
 
 install:
 	go install
+	mise exec -- hk install --mise
 
 lint:
 	golangci-lint run ./...
