@@ -11,13 +11,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-go@v7
-        with:
-          go-version: '1.26'
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v9
-        with:
-          version: latest
+      - uses: jdx/mise-action@v5
+      - name: Lint
+        run: make lint
         # Порог покрытия задан переменной COVERAGE_MIN в Makefile, поэтому шаг
         # падает при просадке покрытия, и бейджик CI отражает в том числе его
       - name: Run tests

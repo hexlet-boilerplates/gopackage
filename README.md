@@ -4,15 +4,15 @@
 
 ## Requirements
 
-* Go 1.19
+* [mise](https://mise.jdx.dev), it installs Go, golangci-lint and govulncheck from `mise.toml`
 * Make
-* [golangci-lint](https://golangci-lint.run)
 
 ## Setup
 
 ```bash
 git clone git@github.com:hexlet-boilerplates/gopackage.git
 cd gopackage
+mise install
 make install
 ```
 
@@ -20,6 +20,12 @@ make install
 
 ```bash
 make lint
+```
+
+## Fix lint issues
+
+```bash
+make lint-fix
 ```
 
 ## Run tests
