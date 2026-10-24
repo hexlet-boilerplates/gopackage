@@ -22,5 +22,9 @@ install:
 
 lint:
 	golangci-lint run ./...
+	govulncheck ./...
 
-.PHONY: test test-coverage install lint
+lint-fix:
+	golangci-lint run --fix ./...
+
+.PHONY: test test-coverage install lint lint-fix

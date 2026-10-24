@@ -1,3 +1,4 @@
+// Package main prints a greeting.
 package main
 
 import (
@@ -6,7 +7,7 @@ import (
 )
 
 func main() {
-    // Get a greeting message and print it.
-    message := src.Hello("Gladys")
-    fmt.Println(message)
+	// Get a greeting message and print it.
+	message := src.Hello("Gladys")
+	fmt.Println(message)
 }

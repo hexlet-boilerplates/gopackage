@@ -1,0 +1,15 @@
+version: "2"
+
+linters:
+  # К стандартным (errcheck, govet, ineffassign, staticcheck, unused) добавлены
+  # линтеры, которые находят реальные ошибки и неидиоматичный код.
+  enable:
+    - errorlint
+    - gocritic
+    - misspell
+    - revive
+    - unconvert
+
+formatters:
+  enable:
+    - gofmt
